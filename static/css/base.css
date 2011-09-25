@@ -1,0 +1,15 @@
+.container-fluid {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+.container-fluid .sidebar, .container-fluid .content {
+    height: 200px;
+}
+.container-fluid .sidebar {
+    width: 400px;
+    background: #eee;
+}
+.container-fluid .content {
+    margin-left: 420px;
+}
