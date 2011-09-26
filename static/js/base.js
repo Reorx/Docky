@@ -1,29 +1,35 @@
-var popNoti = function (s) {
-    var notiDOM = $('<div>').css({
-        'display': 'none',
-        'position': 'absolute',
-        'height': '30px', 'line-height': '30px',
-        'text-align': 'center',
-        'top': '20px', 'right': '20px',
-    }).append(
-        $('<span>').html(s).css({
-            'padding': '2px 8px',
-            'background': 'red', 'color': '#fff'
+/* components */
+var popNoti = function (s, hold) {
+    var noti = $('<span>').html(s).appendTo($('#popNoti'));
+    noti.close = function (msg) {
+        if (msg) { noti.html(msg); }
+        noti.fadeOut(300, function () {
+            var gap = $('<span>').addClass('gap');
+            noti.after(gap);
+            gap.animate({
+                height: '0px'
+            }, 300, function () {
+                gap.remove();
+                noti.remove();
+            });
         })
-    );
-    $('body').append(notiDOM);
-    notiDOM.fadeIn(1200, function () {
-        setTimeout(function () {
-            notiDOM.fadeOut(1200, function () {
-                notiDOM.remove();
-            })
-        }, 800);
-    });
+    }
+
+    if (hold) {
+        noti.fadeIn(300);
+        return noti;
+    } else {
+        noti.fadeIn(300, function () {
+            setTimeout(function () {
+                noti.close();
+            }, 500);
+        });
+    }
 }
 
-var new_ajax = function () {
+var new_ajax = function (method) {
     var ajaxObj = {};
-    ajaxObj.method = 'POST';
+    ajaxObj.method = method;
     ajaxObj.url = '';
     ajaxObj.data = {};
     ajaxObj.send = function (succFn) {
@@ -34,30 +40,21 @@ var new_ajax = function () {
             headers: {
                 'Cookie': 'global_session_id='
             },
-            beforeSend: function(jqXHR) {
-                var header_cookie_val = 'global_session_id='+api_token;
-                jqXHR.setRequestHeader("Cookie", header_cookie_val);
-            },
             */
+            beforeSend: function(jqXHR) {
+                ajaxObj.noti = popNoti('before', true);
+            },
             data: ajaxObj.data,
-            success: succFn
+            success: succFn,
+            complete: function (jqXHR, msg) {
+                //popNoti('ajax: ' + jqXHR.status + ' ' + msg);
+                ajaxObj.noti.html(msg).fadeOut();
+            }
         });
     };
     return ajaxObj;
 }
 
 $(function () {
-    $('#main_tab .tab').each(function () {
-        var xfocus = '{{ main_tab }}';
-        if (xfocus == $(this).attr('xid')) {
-            $(this).addClass('focus');
-        }
-    });
-    /*
-    $('h1.mx').mouseover(function () {
-        $(this).find('a.hidden').delay(300).css({'display': 'block'});
-    }).mouseleave(function () {
-        $(this).find('a.hidden').hide(300);
-    });
-    */
+    $('textarea').elastic();
 });

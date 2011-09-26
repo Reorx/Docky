@@ -51,4 +51,24 @@ class Doc(db.Model):
     name = Column(String(32), unique=True, index=True)
     description = Column(String(128))
 
+    def set_resource(self, name):
+        pass
+
+    def get_resource(self, name):
+        pass
+
+    def get_resources(self):
+        pass
+
+    def set_entry(self, data):
+        pass
+
+    def get_entry(self, name):
+        pass
+
+    def get_entries(self):
+        pass
+
+DocResource = mongodb.get_collection('doc_resource')
+
 DocEntry = mongodb.get_collection('doc_entry')

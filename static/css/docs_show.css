@@ -1,0 +1,90 @@
+.container-fluid .content .sense {
+    width: 700px;
+    padding-bottom: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 19px;
+}
+
+form fieldset {
+    border-bottom: 1px solid #ddd;
+}
+form fieldset:last-child {
+    border-bottom: 0;
+}
+form .separator {
+    height: 1px;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+form textarea.code_raw {
+    height: 100px;
+}
+
+div.input pre {
+    padding: 4px;
+}
+pre.span8 {
+    display: inline-block;
+    float: none;
+    width: 450px;
+    margin-left: 0;
+}
+
+form pre.code_syntaxed {
+    min-height: 100px;
+    margin-top: 15px;
+    /* overflow-y: scroll; */
+}
+
+#static_parameters {
+}
+#static_parameters .item {
+    overflow: hidden;
+    padding: 6px;
+    margin-bottom: 5px;
+
+    background: #f8f8f8;
+    text-align: left;
+}
+#static_parameters .item .info {
+    float: left;
+    width: 130px;
+    height: 45px;
+
+    color: #404040;
+}
+#static_parameters .item .info .name {
+    height: 25px;
+
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+}
+#static_parameters .item .info .required {
+    display: none;
+}
+#static_parameters .item .description {
+    font-size: 13px;
+    margin-left: 150px;
+    color: #555;
+}
+
+
+#entries {
+}
+#entries .item {
+    border-bottom: 1px solid #ccc;
+    height: 40px;
+}
+
+
+/* prepare */
+#entries {
+    display: block;
+}
+#entryform {
+    display: none;
+}

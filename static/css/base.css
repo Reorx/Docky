@@ -1,3 +1,26 @@
+
+#popNoti {
+    position: fixed;
+    top: 20px; right: 20px;
+    line-height: 30px;
+}
+#popNoti span {
+    display: block;
+    height: 25px;
+    margin-bottom: 5px;
+    padding: 0 5px;
+
+    line-height: 25px;
+    text-align: center;
+    background: red;
+    color: #fff;
+
+}
+#popNoti span.gap {
+    width: 100px;
+    background: transparent;
+}
+
 .container-fluid {
     padding-top: 20px;
     padding-left: 20px;
@@ -7,9 +30,29 @@
     height: 200px;
 }
 .container-fluid .sidebar {
-    width: 400px;
+    width: 300px;
+    border: 1px solid #ccc;
+}
+.container-fluid .sidebar > div {
+    height: 40px;
+    border-bottom: 1px solid #ccc;
+}
+.container-fluid .sidebar > div:hover {
+    background: #fafafa;
+}
+.container-fluid .sidebar > div.header {
     background: #eee;
 }
+.container-fluid .sidebar > div > a {
+    display: inline-block;
+    margin-left: 25px;
+    line-height: 40px;
+    font-size: 22px;
+}
+.container-fluid .sidebar > div.header > a {
+    font-weight: bold;
+    font-size: 25px;
+}
 .container-fluid .content {
-    margin-left: 420px;
+    margin-left: 320px;
 }

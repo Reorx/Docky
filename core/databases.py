@@ -219,14 +219,12 @@ class MongoDoc(object):
         2.如果raw（原始查询结果）为列表或cursor(游标)，提供迭代器方法
     """
     def __init__(self, collection, raw, *arg, **kwargs):
-        if not isinstance(raw, list) and not isinstance(raw, dict):
+        if not isinstance(raw, dict):
             raise TypeError
+        self._meta = SDict()
         self._meta.raw = raw
         self._meta.recognizer = {'_id': raw['_id']}
         self._meta.collection = collection
-
-    class _meta:
-        pass
 
     def __getattr__(self, key):
         if 'save' == key or '_meta' == key:
@@ -237,7 +235,10 @@ class MongoDoc(object):
             return None
 
     def __setattr__(self, key, value):
-        self._meta.raw[key] = value
+        if '_meta' == key:
+            return super(MongoDoc, self).__setattr__(key, value)
+        else:
+            self._meta.raw[key] = value
 
     def __str__(self):
         raw = self._meta.raw
@@ -263,6 +264,7 @@ class MongoCollection(object):
         self._collection = self._db[self._name]
 
     def _mongodoc(self, raw):
+        print 'raw doc', raw
         mdoc = MongoDoc(self._collection, raw)
         return mdoc
 
@@ -287,8 +289,15 @@ class MongoCollection(object):
         返回经过MongoDoc封装的对象
         """
         #print 'filter kwargs: ', kwargs
-        raw = self._collection.find_one(kwargs)
-        return self._mongodoc(raw)
+        raw = self._collection.find(kwargs)
+        if not raw: return []
+        if isinstance(raw, dict):
+            return [self._mongodoc(raw), ]
+        elif isinstance(raw, pymongo.cursor.Cursor) or isinstance(raw, list):
+            print 'cursor'
+            return [self._mongodoc(i) for i in raw]
+        else:
+            return []
 
 class MongoDB(object):
     """

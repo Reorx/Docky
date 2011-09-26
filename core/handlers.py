@@ -76,6 +76,13 @@ class BaseHandler(tornado.web.RequestHandler):
     def _dict(self):
         return _dict
 
+    def api_error(self, code, message=None):
+        # TODO show message on logging
+        self.set_status(code)
+        msg = {'code': code, 'error': message}
+        self.write(msg)
+        self.finish()
+
     def get_user_locale(self):
         if self.current_user:
             return tornado.locale.get(self.current_user.locale)

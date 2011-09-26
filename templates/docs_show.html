@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+<link media="all" rel="stylesheet" href="/static/css/docs.css" type="text/css" />
+<link media="all" rel="stylesheet" href="/static/css/docs_show.css" type="text/css" />
+<script src="/static/js/docs_show.js" type="text/javascript"></script>
+{% end %}
+
+{% block sidebar %}
+<div class="header">
+<a href="">
+{{ doc.name }}
+</a>
+</div>
+<div>
+    <a id="tgr_all" href="#">所有条目</a>
+</div>
+<div>
+    <a id="tgr_add" href="#">添加条目</a>
+</div>
+{% end %}
+
+{% block content %}
+
+<div id="entries">
+
+    {% for i in doc_entries %}
+    <div class="item">
+        <a href="/entries/{{ i.method }}|{{ i.url}}">{{ i.url }}</a>
+    </div>
+    {% end %}
+
+</div>
+
+<div id="entryform" class="sense">
+    <form id="entry_form" class="" action="/docs/{{ doc.name }}/entries" method="post">
+        <input name="doc" type="hidden" value="{{ doc.name }}" />
+
+
+        <fieldset>
+            <div class="clearfix">
+                <label for="">resource</label>
+                <div class="input">
+                    <select class="span2" id="" name="resource">
+                        {% for i in resources %}
+                        <option value="{{ i.name }}">{{ i.name }}</option>
+                        {% end %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <label for="">url</label>
+                <div class="input">
+                    <div class="input-prepend">
+                        <span class="add-on">http://</span>
+                        <input id="" name="url" type="text" class="span7" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <label for="">method</label>
+                <div class="input">
+                    <select class="span2" id="" name="method">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <label for="description">description</label>
+                <div class="input">
+                    <textarea id="" name="description" class="span8" ></textarea>
+                    <span class="help-block">just describe it</span>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <label for="">required</label>
+                <div class="input">
+                    <ul class="inputs-list">
+                        <li>
+                            <label for="">
+                                <input id="" name="authentication_requred" type="checkbox" />
+                                <span>authentication</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset id="parameters_field">
+
+            <div id="static_parameters">
+            </div>
+
+            <div class="clearfix">
+                <label for="">name</label>
+                <div class="input">
+                    <div class="input-append">
+                        <input name="parameter_name" type="text" class="span3" />
+                        <label class="add-on active" for="">
+                            <input id="" name="parameter_required" type="checkbox" />
+                        </label>
+                    </div>
+                    <span class="help-inline" >required to set</span>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <label for="description">description</label>
+                <div class="input">
+                    <textarea name="parameter_description" class="span8" ></textarea>
+                    <span class="help-block">just describe it</span>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <div class="input">
+                    <input id="parameter_adder" class="btn" type="submit" value="Add Parameter" />
+                </div>
+            </div>
+
+
+        </fieldset>
+
+        <fieldset>
+            <div class="clearfix">
+                <label for="description">example request</label>
+                <div class="input">
+                    <div class="input-prepend">
+                        <span class="add-on">http://</span>
+                        <input id="" name="example_request" type="text" class="span7" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <label for="description">example response</label>
+                <div class="input">
+                    <textarea name="example_response" class="code_raw span8 prettyprint" >
+                    </textarea>
+                </div>
+                <div class="input">
+                    <pre class="code_syntaxed span8 prettyprint"></pre>
+                </div>
+            </div>
+
+            <div class="actions">
+                <input id="entry_submit" class="btn primary" type="submit" value="Submit" />
+            </div>
+        </fieldset>
+
+    </form>
+</div>
+
+{% end %}
