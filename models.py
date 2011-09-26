@@ -69,6 +69,9 @@ class Doc(db.Model):
     def get_entries(self):
         pass
 
-DocResource = mongodb.get_collection('doc_resource')
+class DocResource(db.Model):
+    doc_id = Column(Integer)
+    name = Column(String(32), unique=True)
+    description = Column(String(128))
 
 DocEntry = mongodb.get_collection('doc_entry')
