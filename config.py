@@ -9,14 +9,16 @@ db_config = {
     'driver': 'mysqldb',
     'username': 'internal',
     'password': 'nodemix',
-    'host': 'localhost',
+    #'host': 'localhost',
+    'host': '10.10.10.100',
     'port': 3306,
     'database': 'docky',
     'debug': False,
 }
 
 mongodb_config = {
-    'host': 'localhost',
+    #'host': 'localhost',
+    'host': '10.10.10.100',
     'port': 27017,
     'name': 'docky',
 }

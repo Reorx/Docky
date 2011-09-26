@@ -264,7 +264,6 @@ class MongoCollection(object):
         self._collection = self._db[self._name]
 
     def _mongodoc(self, raw):
-        print 'raw doc', raw
         mdoc = MongoDoc(self._collection, raw)
         return mdoc
 
@@ -294,7 +293,6 @@ class MongoCollection(object):
         if isinstance(raw, dict):
             return [self._mongodoc(raw), ]
         elif isinstance(raw, pymongo.cursor.Cursor) or isinstance(raw, list):
-            print 'cursor'
             return [self._mongodoc(i) for i in raw]
         else:
             return []

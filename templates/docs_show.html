@@ -13,6 +13,9 @@
 </a>
 </div>
 <div>
+    <a id="" href="/">添加资源</a>
+</div>
+<div>
     <a id="tgr_all" href="#">所有条目</a>
 </div>
 <div>
@@ -26,7 +29,7 @@
 
     {% for i in doc_entries %}
     <div class="item">
-        <a href="/entries/{{ i.method }}|{{ i.url}}">{{ i.url }}</a>
+        <a href="/docs/{{ doc.name }}/entries/{{ i.method }}|{{ i.url}}">{{ i.url }}</a>
     </div>
     {% end %}
 

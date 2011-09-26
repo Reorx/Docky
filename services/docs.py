@@ -19,11 +19,11 @@ class DocsHdr(WebHandler):
 class DocsShowHdr(WebHandler):
     def get(self, doc_name=None):
         c = {}
-        c['doc'] = Doc.query.filter_by(name=doc_name).one()
-        c['doc_entries'] = DocEntry.query(doc=doc_name)
-        #c['doc'] = []
-        #c['doc']['entries'] = DocEntry.query(doc=doc_name)
-        #c['doc']['resources'] = 
+        d = Doc.query.filter_by(name=doc_name).one()
+        c['doc'] = d
+        #print dir(d)
+        c['doc_entries'] = d.get_entries()
+        c['doc_resources'] = d.get_resources()
         self.render('docs_show.html', **c)
 
 class DocsUpdateHdr(WebHandler):
@@ -58,21 +58,13 @@ class DocsEntriesHdr(WebHandler):
 
 class DocsEntriesShowHdr(WebHandler):
     def get(self, doc_name=None, identifier=None):
-        try:
-            buf = identifier.split('|')
-            e_method = buf[0]
-            e_url = buf[1]
-        except:
-            return self.api_error(400, 'b r')
-        try:
-            e = DocEntry.query(method=e_method,
-                               url=e_url)[0]
-        except:
-            return self.api_error(404, 'n f')
+        d = Doc.query.filter_by(name=doc_name).one()
+        print d, dir(d)
+        e = d.get_entry(identifier)
         c = {
             'entry': e
         }
-        return self.render('entry.html', **c)
+        return self.render('entries_show.html', **c)
 
 class DocsEntriesUpdateHdr(WebHandler):
     def post(self):
@@ -82,6 +74,7 @@ handlers = [
     (r'/docs', DocsHdr), # GET, POST, DELETE
     (r'/docs/(?P<doc_name>\w+)', DocsShowHdr), # GET
     (r'/docs/(?P<doc_name>\w+)/update', DocsUpdateHdr), # GET, POST
+
     (r'/docs/(?P<doc_name>\w+)/entries', DocsEntriesHdr), # GET, POST, DELETE
     (r'/docs/(?P<doc_name>\w+)/entries/(?P<identifier>.*)', DocsEntriesShowHdr), # GET
     (r'/docs/(?P<doc_name>\w+)/entries/(?P<identifier>.*)/update', DocsEntriesUpdateHdr), # GET, POST

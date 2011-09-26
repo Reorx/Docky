@@ -58,16 +58,19 @@ class Doc(db.Model):
         pass
 
     def get_resources(self):
-        pass
+        return DocResource.query.filter_by(doc_id=self.id)
 
     def set_entry(self, data):
         pass
 
-    def get_entry(self, name):
-        pass
+    def get_entry(self, identifier):
+        buf = identifier.split('|')
+        if not 2 == len(buf): return None
+        e = DocEntry.query(doc=self.name, method=buf[0], url=buf[1])[0]
+        return e
 
     def get_entries(self):
-        pass
+        return DocEntry.query(doc=self.name)
 
 class DocResource(db.Model):
     doc_id = Column(Integer)
