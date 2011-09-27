@@ -97,7 +97,7 @@ class DjangoQuery(Query):
                 column = column.desc()
             args[idx] = column
 
-        q = super(DjangoQueryMixin, self).order_by(*args)
+        q = super(DjangoQuery, self).order_by(*args)
         for join in joins_needed:
             q = q.join(join)
         return q
@@ -287,7 +287,6 @@ class MongoCollection(object):
         >>> p = UserProfile.query(_id=192803784629841')
         返回经过MongoDoc封装的对象
         """
-        #print 'filter kwargs: ', kwargs
         raw = self._collection.find(kwargs)
         if not raw: return []
         if isinstance(raw, dict):
