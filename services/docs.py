@@ -24,7 +24,7 @@ class DocsShowHdr(WebHandler):
         #print dir(d)
         c['doc_entries'] = d.get_entries()
         c['doc_resources'] = d.get_resources()
-        self.render('docs_show.html', **c)
+        self.render('doc.html', **c)
 
 class DocsUpdateHdr(WebHandler):
     def get(self):
@@ -64,7 +64,7 @@ class DocsEntriesShowHdr(WebHandler):
         c = {
             'entry': e
         }
-        return self.render('entries_show.html', **c)
+        return self.render('resource.html', **c)
 
 class DocsEntriesUpdateHdr(WebHandler):
     def post(self):

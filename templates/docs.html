@@ -1,43 +1,44 @@
 {% extends 'base.html' %}
 
-{% block head_extra %}
-<link media="all" rel="stylesheet" href="/static/css/docs.css" type="text/css" />
+{% block head %}
+<title>Docky / Docs</title>
+<link media="all" rel="stylesheet" href="/static/css/docs.css" />
 {% end %}
 
 {% block sidebar %}
+<div class="well">
+  <h2>Documentation</h2>
+  <ul>
+  {% for i in docs %}
+  <li class="entry_item">
+    <a href="/docs/{{ i.name }}">{{ i.name }}</a>
+  </li>
+  {% end %}
+  </ul>
+</div>
 {% end %}
 
 {% block content %}
-<h2>Docs</h2>
-
-{% for i in docs %}
-<div class="entry_item">
-    <a href="/docs/{{ i.name }}">{{ i.name }}</a>
+<div class="hero-unit">
+  <h2>Add section</h2>
+  <form action="" method="post">
+    <fieldset>
+      <div class="clearfix">
+        <label for="name">Name</label>
+        <div class="input">
+          <input id="name" name="name" type="text" class="span3" />
+        </div>
+      </div>
+      <div class="clearfix">
+        <label for="description">Description</label>
+        <div class="input">
+          <textarea name="description" class="span8" ></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <input class="btn primary" type="submit" value="Add" />
+      </div>
+    </fieldset>
+  </form>
 </div>
-{% end %}
-
-<div class="well">
-    <form class="" action="" method="post">
-        <fieldset>
-            <div class="clearfix">
-                <label for="name">Doc name</label>
-                <div class="input">
-                    <input id="name" name="name" type="text" class="span3" />
-                </div>
-            </div>
-
-            <div class="clearfix">
-                <label for="description">Doc description</label>
-                <div class="input">
-                    <textarea id="" name="description" class="span8" ></textarea>
-                    <span class="help-block">just describe it</span>
-                </div>
-            </div>
-            <div class="actions">
-                <input class="btn primary" type="submit" value="Submit" />
-            </div>
-        </fieldset>
-    </form>
-</div>
-
 {% end %}

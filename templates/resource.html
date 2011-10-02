@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="well">
+  <h2>
+    {{ entry.method }} {{ entry.url }}
+  </h2>
+  <div class="update_log">
+  </div>
+  <div class="description">
+    {{ entry.description }}
+  </div>
+  <div class="url">
+    {{ entry.url }}
+  </div>
+  <div class="required">
+    {{ entry.authentication_requred }}
+  </div>
+  <div class="field-parameters">
+    <h2>Parameters</h2>
+    <div class="parameters">
+      {% for i in entry.parameters %}
+      <div class="item">
+        {{ i['name'] }}
+      </div>
+      {% end %}
+    </div>
+  </div>
+  <div class="field-example">
+    <h2>Example Request</h2>
+    <div class="example_request">
+      {{ entry.example['request'] }}
+    </div>
+    <h2>Example Response</h2>
+    <div class="example_response">
+      {{ entry.example['response'] }}
+    </div>
+  </div>
+</div>
+{% end %}
