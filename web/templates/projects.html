@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Docky / Docs</title>
+{% end %}
+
+{% block sidebar %}
+<div class="well">
+  <h2>Documentation</h2>
+  <ul>
+  {% for i in projects %}
+  <li class="entry_item">
+    <a href="/docs/{{ i.name }}">{{ i.name }}</a>
+  </li>
+  {% end %}
+  </ul>
+</div>
+{% end %}
+
+{% block content %}
+<div id="all-projects" class="hero-unit">
+    <h2>All Projects</h2>
+    <ul>
+    {% for i in projects %}
+        <li><a href="#">{{ i.name }}</a></li>
+    {% end %}
+    </ul>
+</div>
+<div class="hero-unit">
+  <h2>Create Project</h2>
+  <form action="" method="post">
+    <fieldset>
+      <div class="clearfix">
+        <label for="name">Name</label>
+        <div class="input">
+          <input id="name" name="name" type="text" class="span3" />
+        </div>
+      </div>
+      <div class="clearfix">
+        <label for="description">Description</label>
+        <div class="input">
+          <textarea name="description" class="span8" ></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <input class="btn primary" type="submit" value="Add" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% end %}

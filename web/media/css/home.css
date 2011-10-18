@@ -1,0 +1,44 @@
+.topbar {
+  position: relative;
+}
+
+.topbar-inner {
+  background-color: #E6E6E6;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.container-fluid {
+  /*
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+  width: 800px;
+  */
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+}
+
+body > .container-fluid {
+  margin-top: 20px;
+}
+
+.container-fluid > .sidebar {
+}
+.container-fluid > .sidebar h2 {
+  height: 36px;
+}
+.container-fluid > .sidebar ul {
+}
+
+.container-fluid > .content {
+}
+
+.footer {
+  margin-top: 30px;
+  padding: 12px 15px;
+  background-color: whiteSmoke;
+  -webkit-border-radius: 6px;
+}
