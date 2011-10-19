@@ -5,8 +5,11 @@
  * includes:
  *    - jquery.cookie.js
  *    - jquery.json.js
- *    - jquery.tmpl.js
+ *    - jquery.url.js
+ *    - mustache.js
+ *    - jquery.mustache.js
  *    - jquery.meow.js
+ *    - jquery.jqdialog.js
  *
  * specially, involved the RESTful framework: sammy.
  *
@@ -172,195 +175,166 @@ jQuery.cookie = function (key, value, options) {
     };
 })(jQuery);
 
-/* jquery.tmpl.js */
-(function(a){var r=a.fn.domManip,d="_tmplitem",q=/^[^<]*(<[\w\W]+>)[^>]*$|\{\{\! /,b={},f={},e,p={key:0,data:{}},i=0,c=0,l=[];function g(g,d,h,e){var c={data:e||(e===0||e===false)?e:d?d.data:{},_wrap:d?d._wrap:null,tmpl:null,parent:d||null,nodes:[],calls:u,nest:w,wrap:x,html:v,update:t};g&&a.extend(c,g,{nodes:[],parent:d});if(h){c.tmpl=h;c._ctnt=c._ctnt||c.tmpl(a,c);c.key=++i;(l.length?f:b)[i]=c}return c}a.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(f,d){a.fn[f]=function(n){var g=[],i=a(n),k,h,m,l,j=this.length===1&&this[0].parentNode;e=b||{};if(j&&j.nodeType===11&&j.childNodes.length===1&&i.length===1){i[d](this[0]);g=this}else{for(h=0,m=i.length;h<m;h++){c=h;k=(h>0?this.clone(true):this).get();a(i[h])[d](k);g=g.concat(k)}c=0;g=this.pushStack(g,f,i.selector)}l=e;e=null;a.tmpl.complete(l);return g}});a.fn.extend({tmpl:function(d,c,b){return a.tmpl(this[0],d,c,b)},tmplItem:function(){return a.tmplItem(this[0])},template:function(b){return a.template(b,this[0])},domManip:function(d,m,k){if(d[0]&&a.isArray(d[0])){var g=a.makeArray(arguments),h=d[0],j=h.length,i=0,f;while(i<j&&!(f=a.data(h[i++],"tmplItem")));if(f&&c)g[2]=function(b){a.tmpl.afterManip(this,b,k)};r.apply(this,g)}else r.apply(this,arguments);c=0;!e&&a.tmpl.complete(b);return this}});a.extend({tmpl:function(d,h,e,c){var i,k=!c;if(k){c=p;d=a.template[d]||a.template(null,d);f={}}else if(!d){d=c.tmpl;b[c.key]=c;c.nodes=[];c.wrapped&&n(c,c.wrapped);return a(j(c,null,c.tmpl(a,c)))}if(!d)return[];if(typeof h==="function")h=h.call(c||{});e&&e.wrapped&&n(e,e.wrapped);i=a.isArray(h)?a.map(h,function(a){return a?g(e,c,d,a):null}):[g(e,c,d,h)];return k?a(j(c,null,i)):i},tmplItem:function(b){var c;if(b instanceof a)b=b[0];while(b&&b.nodeType===1&&!(c=a.data(b,"tmplItem"))&&(b=b.parentNode));return c||p},template:function(c,b){if(b){if(typeof b==="string")b=o(b);else if(b instanceof a)b=b[0]||{};if(b.nodeType)b=a.data(b,"tmpl")||a.data(b,"tmpl",o(b.innerHTML));return typeof c==="string"?(a.template[c]=b):b}return c?typeof c!=="string"?a.template(null,c):a.template[c]||a.template(null,q.test(c)?c:a(c)):null},encode:function(a){return(""+a).split("<").join("&lt;").split(">").join("&gt;").split('"').join("&#34;").split("'").join("&#39;")}});a.extend(a.tmpl,{tag:{tmpl:{_default:{$2:"null"},open:"if($notnull_1){__=__.concat($item.nest($1,$2));}"},wrap:{_default:{$2:"null"},open:"$item.calls(__,$1,$2);__=[];",close:"call=$item.calls();__=call._.concat($item.wrap(call,__));"},each:{_default:{$2:"$index, $value"},open:"if($notnull_1){$.each($1a,function($2){with(this){",close:"}});}"},"if":{open:"if(($notnull_1) && $1a){",close:"}"},"else":{_default:{$1:"true"},open:"}else if(($notnull_1) && $1a){"},html:{open:"if($notnull_1){__.push($1a);}"},"=":{_default:{$1:"$data"},open:"if($notnull_1){__.push($.encode($1a));}"},"!":{open:""}},complete:function(){b={}},afterManip:function(f,b,d){var e=b.nodeType===11?a.makeArray(b.childNodes):b.nodeType===1?[b]:[];d.call(f,b);m(e);c++}});function j(e,g,f){var b,c=f?a.map(f,function(a){return typeof a==="string"?e.key?a.replace(/(<\w+)(?=[\s>])(?![^>]*_tmplitem)([^>]*)/g,"$1 "+d+'="'+e.key+'" $2'):a:j(a,e,a._ctnt)}):e;if(g)return c;c=c.join("");c.replace(/^\s*([^<\s][^<]*)?(<[\w\W]+>)([^>]*[^>\s])?\s*$/,function(f,c,e,d){b=a(e).get();m(b);if(c)b=k(c).concat(b);if(d)b=b.concat(k(d))});return b?b:k(c)}function k(c){var b=document.createElement("div");b.innerHTML=c;return a.makeArray(b.childNodes)}function o(b){return new Function("jQuery","$item","var $=jQuery,call,__=[],$data=$item.data;with($data){__.push('"+a.trim(b).replace(/([\\'])/g,"\\$1").replace(/[\r\t\n]/g," ").replace(/\$\{([^\}]*)\}/g,"{{= $1}}").replace(/\{\{(\/?)(\w+|.)(?:\(((?:[^\}]|\}(?!\}))*?)?\))?(?:\s+(.*?)?)?(\(((?:[^\}]|\}(?!\}))*?)\))?\s*\}\}/g,function(m,l,k,g,b,c,d){var j=a.tmpl.tag[k],i,e,f;if(!j)throw"Unknown template tag: "+k;i=j._default||[];if(c&&!/\w$/.test(b)){b+=c;c=""}if(b){b=h(b);d=d?","+h(d)+")":c?")":"";e=c?b.indexOf(".")>-1?b+h(c):"("+b+").call($item"+d:b;f=c?e:"(typeof("+b+")==='function'?("+b+").call($item):("+b+"))"}else f=e=i.$1||"null";g=h(g);return"');"+j[l?"close":"open"].split("$notnull_1").join(b?"typeof("+b+")!=='undefined' && ("+b+")!=null":"true").split("$1a").join(f).split("$1").join(e).split("$2").join(g||i.$2||"")+"__.push('"})+"');}return __;")}function n(c,b){c._wrap=j(c,true,a.isArray(b)?b:[q.test(b)?b:a(b).html()]).join("")}function h(a){return a?a.replace(/\\'/g,"'").replace(/\\\\/g,"\\"):null}function s(b){var a=document.createElement("div");a.appendChild(b.cloneNode(true));return a.innerHTML}function m(o){var n="_"+c,k,j,l={},e,p,h;for(e=0,p=o.length;e<p;e++){if((k=o[e]).nodeType!==1)continue;j=k.getElementsByTagName("*");for(h=j.length-1;h>=0;h--)m(j[h]);m(k)}function m(j){var p,h=j,k,e,m;if(m=j.getAttribute(d)){while(h.parentNode&&(h=h.parentNode).nodeType===1&&!(p=h.getAttribute(d)));if(p!==m){h=h.parentNode?h.nodeType===11?0:h.getAttribute(d)||0:0;if(!(e=b[m])){e=f[m];e=g(e,b[h]||f[h]);e.key=++i;b[i]=e}c&&o(m)}j.removeAttribute(d)}else if(c&&(e=a.data(j,"tmplItem"))){o(e.key);b[e.key]=e;h=a.data(j.parentNode,"tmplItem");h=h?h.key:0}if(e){k=e;while(k&&k.key!=h){k.nodes.push(j);k=k.parent}delete e._ctnt;delete e._wrap;a.data(j,"tmplItem",e)}function o(a){a=a+n;e=l[a]=l[a]||g(e,b[e.parent.key+n]||e.parent)}}}function u(a,d,c,b){if(!a)return l.pop();l.push({_:a,tmpl:d,item:this,data:c,options:b})}function w(d,c,b){return a.tmpl(a.template(d),c,b,this)}function x(b,d){var c=b.options||{};c.wrapped=d;return a.tmpl(a.template(b.tmpl),b.data,c,b.item)}function v(d,c){var b=this._wrap;return a.map(a(a.isArray(b)?b.join(""):b).filter(d||"*"),function(a){return c?a.innerText||a.textContent:a.outerHTML||s(a)})}function t(){var b=this.nodes;a.tmpl(null,null,null,this).insertBefore(b[0]);a(b).remove()}})(jQuery);
-
-/* jquery.meow.js */
-/* TODO need enhancemnt, then -> jquery.notify */
-(function ($) {
-  'use strict';
-  // Meow queue
-  var meow_area,
-    meows = {
-      queue: {},
-      add: function (meow) {
-        this.queue[meow.timestamp] = meow;
-      },
-      get: function (timestamp) {
-        return this.queue[timestamp];
-      },
-      remove: function (timestamp) {
-        delete this.queue[timestamp];
-      },
-      size: function () {
-        var timestamp,
-          size = 0;
-        for (timestamp in this.queue) {
-          if (this.queue.hasOwnProperty(timestamp)) { size += 1; }
-        }
-        return size;
-      }
+/* jquery.url.js */
+;(function($, undefined) {
+    
+    var tag2attr = {
+        a       : 'href',
+        img     : 'src',
+        form    : 'action',
+        base    : 'href',
+        script  : 'src',
+        iframe  : 'src',
+        link    : 'href'
     },
-    // Meow constructor
-    Meow = function (options) {
-      var that = this,
-        message_type;
-      this.timestamp = new Date().getTime(); // used to identify this meow and timeout
-      this.hovered = false;         // whether mouse is over or not
-      this.manifest = {};           // stores the DOM object of this meow
-      
-      if (meows.size() <= 0) {
-        meow_area = 'meows-' + new Date().getTime();
-        $('body').prepend($(document.createElement('div')).attr({id: meow_area, 'class': 'meows'}));
-        if (typeof options.beforeCreateFirst === 'function') {
-          options.beforeCreateFirst.call(that);
+    
+    key = ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","fragment"], // keys available to query
+    
+    aliases = { "anchor" : "fragment" }, // aliases for backwards compatability
+
+    parser = {
+        strict  : /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,  //less intuitive, more accurate to the specs
+        loose   :  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ // more intuitive, fails on relative paths and deviates from specs
+    },
+    
+    querystring_parser = /(?:^|&|;)([^&=;]*)=?([^&;]*)/g, // supports both ampersand and semicolon-delimted query string key/value pairs
+    
+    fragment_parser = /(?:^|&|;)([^&=;]*)=?([^&;]*)/g; // supports both ampersand and semicolon-delimted fragment key/value pairs
+    
+    function parseUri( url, strictMode )
+    {
+        var str = decodeURI( url ),
+            res   = parser[ strictMode || false ? "strict" : "loose" ].exec( str ),
+            uri = { attr : {}, param : {}, seg : {} },
+            i   = 14;
+        
+        while ( i-- )
+        {
+            uri.attr[ key[i] ] = res[i] || "";
         }
-      }
-      
-      if (typeof options.title === 'string') {
-        this.title = options.title;
-      }
-      if (typeof options.message === 'string') {
-        message_type = 'string';
-      } else if (typeof options.message === 'object') {
-        message_type = options.message.get(0).nodeName;
-        if (typeof this.title === 'undefined' && typeof options.message.attr('title') === 'string') {
-          this.title = options.message.attr('title');
-        }
-      }
-
-      switch (message_type) {
-      case 'string':
-        this.message = options.message;
-        break;
-      case 'INPUT':
-      case 'TEXTAREA':
-        this.message = options.message.attr('value');
-        break;
-      case 'SELECT':
-        this.message = options.message.find('option:selected').text();
-        break;
-      default:
-        this.message = options.message.text();
-        break;
-      }
-
-      if (typeof options.icon === 'string') {
-        this.icon = options.icon;
-      }
-      if (options.sticky) {
-        this.duration = Infinity;
-      } else {
-        this.duration = options.duration || 5000;
-      }
-      
-      // Call callback if it's defined (this = meow object)
-      if (typeof options.beforeCreate === 'function') {
-        options.beforeCreate.call(that);
-      }
-
-      // Add the meow to the meow area
-      $('#' + meow_area).append($(document.createElement('div'))
-        .attr('id', 'meow-' + this.timestamp.toString())
-        .addClass('meow')
-        .html($(document.createElement('div')).addClass('inner').html(this.message))
-        .hide()
-        .fadeIn(400));
-
-      this.manifest = $('#meow-' + this.timestamp.toString());
-      
-      // Add title if it's defined
-      if (typeof this.title === 'string') {
-        this.manifest.find('.inner').prepend(
-          $(document.createElement('h1')).text(this.title)
-        );
-      }
-      
-      // Add icon if it's defined
-      if (typeof that.icon === 'string') {
-        this.manifest.find('.inner').prepend(
-          $(document.createElement('div')).addClass('icon').html(
-            $(document.createElement('img')).attr('src', this.icon)
-          )
-        );
-      }
-      
-      // Add close button if the meow isn't uncloseable
-      // TODO: this close button needs to be much prettier
-      if (options.closeable !== false) {
-        this.manifest.find('.inner').prepend(
-          $(document.createElement('a'))
-            .addClass('close')
-            .html('&times;')
-            .attr('href', '#close-meow-' + that.timestamp)
-            .click(function (e) {
-              e.preventDefault();
-              that.destroy();
-            })
-        );
-      }
-
-      this.manifest.bind('mouseenter mouseleave', function (event) {
-        if (event.type === 'mouseleave') {
-          that.hovered = false;
-          that.manifest.removeClass('hover');
-          // Destroy the mow on mouseleave if it's timed out
-          if (that.timestamp + that.duration <= new Date().getTime()) {
-            that.destroy();
-          }
-        } else {
-          that.hovered = true;
-          that.manifest.addClass('hover');
-        }
-      });
-      
-      // Add a timeout if the duration isn't Infinity
-      if (this.duration !== Infinity) {
-        this.timeout = setTimeout(function () {
-          // Make sure this meow hasn't already been destroyed
-          if (typeof meows.get(that.timestamp) !== 'undefined') {
-            // Call callback if it's defined (this = meow DOM element)
-            if (typeof options.onTimeout === 'function') {
-              options.onTimeout.call(that.manifest);
+        
+        // build query and fragment parameters
+        
+        uri.param['query'] = {};
+        uri.param['fragment'] = {};
+        
+        uri.attr['query'].replace( querystring_parser, function ( $0, $1, $2 ){
+            if ($1)
+            {
+                uri.param['query'][$1] = $2;
             }
-            // Don't destroy if user is hovering over meow
-            if (that.hovered !== true && typeof that === 'object') {
-              that.destroy();
-            }
-          }
-        }, that.duration);
-      }
-
-      this.destroy = function () {
-        // Call callback if it's defined (this = meow DOM element)
-        if (typeof options.beforeDestroy === 'function') {
-          options.beforeDestroy.call(that.manifest);
-        }
-        that.manifest.find('.inner').fadeTo(400, 0, function () {
-          that.manifest.slideUp(function () {
-            that.manifest.remove();
-            meows.remove(that.timestamp);
-            if (typeof options.afterDestroy === 'function') {
-              options.afterDestroy.call(null);
-            }
-            if (meows.size() <= 0) {
-              $('#' + meow_area).remove();
-              if (typeof options.afterDestroyLast === 'function') {
-                options.afterDestroyLast.call(null);
-              }
-            }
-          });
         });
-      };
+        
+        uri.attr['fragment'].replace( fragment_parser, function ( $0, $1, $2 ){
+            if ($1)
+            {
+                uri.param['fragment'][$1] = $2;
+            }
+        });
+                
+        // split path and fragement into segments
+        
+        uri.seg['path'] = uri.attr.path.replace(/^\/+|\/+$/g,'').split('/');
+        
+        uri.seg['fragment'] = uri.attr.fragment.replace(/^\/+|\/+$/g,'').split('/');
+        
+        // compile a 'base' domain attribute
+        
+        uri.attr['base'] = uri.attr.host ? uri.attr.protocol+"://"+uri.attr.host + (uri.attr.port ? ":"+uri.attr.port : '') : '';
+        
+        return uri;
     };
+    
+    function getAttrName( elm )
+    {
+        var tn = elm.tagName;
+        if ( tn !== undefined ) return tag2attr[tn.toLowerCase()];
+        return tn;
+    }
+    
+    $.fn.url = function( strictMode )
+    {
+        var url = '';
+        
+        if ( this.length )
+        {
+            url = $(this).attr( getAttrName(this[0]) ) || '';
+        }
+        
+        return $.url( url, strictMode );
+    };
+    
+    $.url = function( url, strictMode )
+    {
+        if ( arguments.length === 1 && url === true )
+        {
+            strictMode = true;
+            url = undefined;
+        }
+        
+        strictMode = strictMode || false;
+        url = url || window.location.toString();
+                                
+        return {
+            
+            data : parseUri(url, strictMode),
+            
+            // get various attributes from the URI
+            attr : function( attr )
+            {
+                attr = aliases[attr] || attr;
+                return attr !== undefined ? this.data.attr[attr] : this.data.attr;
+            },
+            
+            // return query string parameters
+            param : function( param )
+            {
+                return param !== undefined ? this.data.param.query[param] : this.data.param.query;
+            },
+            
+            // return fragment parameters
+            fparam : function( param )
+            {
+                return param !== undefined ? this.data.param.fragment[param] : this.data.param.fragment;
+            },
+            
+            // return path segments
+            segment : function( seg )
+            {
+                if ( seg === undefined )
+                {
+                    return this.data.seg.path;                    
+                }
+                else
+                {
+                    seg = seg < 0 ? this.data.seg.path.length + seg : seg - 1; // negative segments count from the end
+                    return this.data.seg.path[seg];                    
+                }
+            },
+            
+            // return fragment segments
+            fsegment : function( seg )
+            {
+                if ( seg === undefined )
+                {
+                    return this.data.seg.fragment;                    
+                }
+                else
+                {
+                    seg = seg < 0 ? this.data.seg.fragment.length + seg : seg - 1; // negative segments count from the end
+                    return this.data.seg.fragment[seg];                    
+                }
+            }
+            
+        };
+        
+    };
+    
+})(jQuery);
 
-  $.fn.meow = function (args) {
-    meows.add(new Meow(args));
-  };
-  $.meow = function (args) {
-    $.fn.meow(args);
-  };
-}(jQuery));
+
+
+
 
 /* mustache.js */
 /*
@@ -759,6 +733,463 @@ var Mustache = function() {
     }
   });
 }();
+
+/**********************
+ * jquery.mustache.js *
+ **********************/
+ /*
+ (function ($) {
+    $.fn.mustache = function (data, partial, stream) {
+        if (Mustache && data) {
+            return $(Mustache.to_html(this.html(), data, partial, stream));
+        }
+    };
+})(jQuery);
+*/
+// usage: $(template).mustache(data).appendTo(something)
+
+/* another way */
+(function ($) {
+    $.mustache = function (tmpl, data) {
+        return $(Mustache.to_html(tmpl, data));
+    }
+}(jQuery));
+
+
+/* jquery.meow.js */
+/* TODO need enhancemnt, then -> jquery.notify */
+(function ($) {
+  'use strict';
+  // Meow queue
+  var meow_area,
+    meows = {
+      queue: {},
+      add: function (meow) {
+        this.queue[meow.timestamp] = meow;
+      },
+      get: function (timestamp) {
+        return this.queue[timestamp];
+      },
+      remove: function (timestamp) {
+        delete this.queue[timestamp];
+      },
+      size: function () {
+        var timestamp,
+          size = 0;
+        for (timestamp in this.queue) {
+          if (this.queue.hasOwnProperty(timestamp)) { size += 1; }
+        }
+        return size;
+      }
+    },
+    // Meow constructor
+    Meow = function (options) {
+      var that = this,
+        message_type;
+      this.timestamp = new Date().getTime(); // used to identify this meow and timeout
+      this.hovered = false;         // whether mouse is over or not
+      this.manifest = {};           // stores the DOM object of this meow
+      
+      if (meows.size() <= 0) {
+        meow_area = 'meows-' + new Date().getTime();
+        $('body').prepend($(document.createElement('div')).attr({id: meow_area, 'class': 'meows'}));
+        if (typeof options.beforeCreateFirst === 'function') {
+          options.beforeCreateFirst.call(that);
+        }
+      }
+      
+      if (typeof options.title === 'string') {
+        this.title = options.title;
+      }
+      if (typeof options.message === 'string') {
+        message_type = 'string';
+      } else if (typeof options.message === 'object') {
+        message_type = options.message.get(0).nodeName;
+        if (typeof this.title === 'undefined' && typeof options.message.attr('title') === 'string') {
+          this.title = options.message.attr('title');
+        }
+      }
+
+      switch (message_type) {
+      case 'string':
+        this.message = options.message;
+        break;
+      case 'INPUT':
+      case 'TEXTAREA':
+        this.message = options.message.attr('value');
+        break;
+      case 'SELECT':
+        this.message = options.message.find('option:selected').text();
+        break;
+      default:
+        this.message = options.message.text();
+        break;
+      }
+
+      if (typeof options.icon === 'string') {
+        this.icon = options.icon;
+      }
+      if (options.sticky) {
+        this.duration = Infinity;
+      } else {
+        this.duration = options.duration || 5000;
+      }
+      
+      // Call callback if it's defined (this = meow object)
+      if (typeof options.beforeCreate === 'function') {
+        options.beforeCreate.call(that);
+      }
+
+      // Add the meow to the meow area
+      $('#' + meow_area).append($(document.createElement('div'))
+        .attr('id', 'meow-' + this.timestamp.toString())
+        .addClass('meow')
+        .html($(document.createElement('div')).addClass('inner').html(this.message))
+        .hide()
+        .fadeIn(400));
+
+      this.manifest = $('#meow-' + this.timestamp.toString());
+      
+      // Add title if it's defined
+      if (typeof this.title === 'string') {
+        this.manifest.find('.inner').prepend(
+          $(document.createElement('h1')).text(this.title)
+        );
+      }
+      
+      // Add icon if it's defined
+      if (typeof that.icon === 'string') {
+        this.manifest.find('.inner').prepend(
+          $(document.createElement('div')).addClass('icon').html(
+            $(document.createElement('img')).attr('src', this.icon)
+          )
+        );
+      }
+      
+      // Add close button if the meow isn't uncloseable
+      // TODO: this close button needs to be much prettier
+      if (options.closeable !== false) {
+        this.manifest.find('.inner').prepend(
+          $(document.createElement('a'))
+            .addClass('close')
+            .html('&times;')
+            .attr('href', '#close-meow-' + that.timestamp)
+            .click(function (e) {
+              e.preventDefault();
+              that.destroy();
+            })
+        );
+      }
+
+      this.manifest.bind('mouseenter mouseleave', function (event) {
+        if (event.type === 'mouseleave') {
+          that.hovered = false;
+          that.manifest.removeClass('hover');
+          // Destroy the mow on mouseleave if it's timed out
+          if (that.timestamp + that.duration <= new Date().getTime()) {
+            that.destroy();
+          }
+        } else {
+          that.hovered = true;
+          that.manifest.addClass('hover');
+        }
+      });
+      
+      // Add a timeout if the duration isn't Infinity
+      if (this.duration !== Infinity) {
+        this.timeout = setTimeout(function () {
+          // Make sure this meow hasn't already been destroyed
+          if (typeof meows.get(that.timestamp) !== 'undefined') {
+            // Call callback if it's defined (this = meow DOM element)
+            if (typeof options.onTimeout === 'function') {
+              options.onTimeout.call(that.manifest);
+            }
+            // Don't destroy if user is hovering over meow
+            if (that.hovered !== true && typeof that === 'object') {
+              that.destroy();
+            }
+          }
+        }, that.duration);
+      }
+
+      this.destroy = function () {
+        // Call callback if it's defined (this = meow DOM element)
+        if (typeof options.beforeDestroy === 'function') {
+          options.beforeDestroy.call(that.manifest);
+        }
+        that.manifest.find('.inner').fadeTo(400, 0, function () {
+          that.manifest.slideUp(function () {
+            that.manifest.remove();
+            meows.remove(that.timestamp);
+            if (typeof options.afterDestroy === 'function') {
+              options.afterDestroy.call(null);
+            }
+            if (meows.size() <= 0) {
+              $('#' + meow_area).remove();
+              if (typeof options.afterDestroyLast === 'function') {
+                options.afterDestroyLast.call(null);
+              }
+            }
+          });
+        });
+      };
+    };
+
+  $.fn.meow = function (args) {
+    meows.add(new Meow(args));
+  };
+  $.meow = function (args) {
+    $.fn.meow(args);
+  };
+}(jQuery));
+
+/**********************
+ * jquery.jqdialog.js *
+ **********************/
+ /* usage:
+  * prompt {header, content, function(input)}
+  * confirm {content, function()//allow, function()//deny}
+  *
+  */
+;(function($) {
+    
+    $.jqDialog = {
+        //________button / control labels
+        labels: {
+            ok: 'Ok',
+            yes: 'Yes',
+            no: 'No',
+            cancel: 'Cancel',
+            x: 'X'
+        },
+
+        //________element ids
+        ids: {
+            div_box:    'jqDialog_box',
+            div_content:    'jqDialog_content',
+            div_options: 'jqDialog_options',
+            bt_close: 'jqDialog_close',
+            bt_yes: 'jqDialog_yes',
+            bt_no: 'jqDialog_no',
+            bt_ok: 'jqDialog_ok',
+            bt_ancel: 'jqDialog_ok',
+            input: 'jqDialog_input',
+
+            overlay: 'jqDialog_overlay'
+        },
+        
+        //________confirm dialog
+        confirm: function(message, callback_yes, callback_no) {
+            var t = this;
+            
+            t.create(message);
+            
+            t.parts.bt_ok.hide();
+            t.parts.bt_cancel.hide();
+            
+            t.parts.bt_yes.show();
+            t.parts.bt_no.show();
+            t.parts.bt_yes.focus();
+            
+            // just redo this everytime in case a new callback is presented
+            t.parts.bt_yes.unbind().click( function() {
+                t.close();
+                if(callback_yes) callback_yes();
+            });
+
+            t.parts.bt_no.unbind().click( function() {
+                t.close();
+                if(callback_no) callback_no();
+            });
+        },
+        
+        //________prompt dialog
+        prompt: function(message, content, callback_ok, callback_cancel) {
+            var t = this;
+
+            t.create(
+                $("<div>").
+                    append($('<span>').html(message))
+                    .append( $("<div>").append( t.parts.input.val(content) ) )
+            );
+            
+            // activate appropriate controls
+            t.parts.bt_yes.hide();
+            t.parts.bt_no.hide();
+
+            t.parts.bt_ok.show();
+            t.parts.bt_cancel.show(); 
+
+            var event_ok = function () {
+                t.close();
+                if(callback_ok) callback_ok( t.parts.input.val() );
+            }
+            var event_cancel = function () {
+                t.close();
+                if(callback_cancel) callback_cancel();
+            }
+            
+            t.parts.input.keydown(function (e) {
+                if (e.keyCode == 13) {
+                    event_ok();
+                }
+            }).focus();
+            
+            // just redo t everytime in case a new callback is presented
+            t.parts.bt_ok.unbind().click( function() {
+                event_ok();
+            });
+
+            t.parts.bt_cancel.unbind().click( function() {
+                event_cancel();
+            });
+        },
+        
+        //________alert dialog
+        alert: function(content, callback_ok) {
+            var t = this;
+            
+            t.create(content);
+
+            // activate appropriate controls
+            t.parts.bt_cancel.hide();
+            t.parts.bt_yes.hide();
+            t.parts.bt_no.hide();
+            
+            t.parts.bt_ok.show();
+            
+            t.parts.bt_ok.focus();
+            
+            // just redo this everytime in case a new callback is presented
+            t.parts.bt_ok.unbind().click( function() {
+                t.close();
+                if(callback_ok)
+                    callback_ok();
+            });
+        },
+
+        //________content
+        content: function(content, close_seconds) {
+            var t = this;
+            
+            t.create(content);
+            t.parts.div_options.hide();
+        },
+
+        //________auto-hiding notification
+        notify: function(content, close_seconds) {
+            var t = this;
+            
+            t.content(content);
+            t.parts.bt_close.focus();
+            if(close_seconds)
+                t.close_timer = setTimeout(function() { t.close(); }, close_seconds*1000 );
+        },
+
+        //________create a dialog box
+        create: function(content) {
+            var t = this;
+            
+            t.check();
+            
+            t.maintainPosition( t.parts.div_box );
+            
+            clearTimeout(t.close_timer);
+
+            t.parts.overlay.show();
+            t.parts.div_content.html(content);
+            t.parts.div_options.show();
+            t.parts.div_box.fadeIn('fast');
+        },
+        //________close the dialog box
+        close: function() {
+            var t = this;
+            t.parts.div_box.fadeOut('fast');
+            //t.clearPosition();
+            t.parts.overlay.hide();
+        },
+
+        //________position control
+        /*
+        clearPosition: function() {
+            $(window).unbind('scroll.jqDialog');
+        },
+        */
+        makeCenter: function(object) {
+            object.css({
+                //top: ( (($(window).height() / 2) - ( object.height() / 2 ) )) + ($(document).scrollTop()) + 'px',
+                top:  ($(window).height() / 3) + 'px',
+                left: ( (($(window).width() / 2) - ( object.width() / 2 ) )) + ($(document).scrollLeft()) + 'px'
+            });
+        },
+        maintainPosition: function(object) {
+            var t = this;
+
+            t.makeCenter(object);
+            
+            /* use css:fixed instead
+            $(window).bind('scroll.jqDialog', function() {
+                t.makeCenter(object);
+            } );
+            */
+        },
+
+        //________
+        init_done: false,
+        check: function() {
+            var t = this;
+            if(t.init_done)
+                return;
+            else {
+                t.init_done = true;
+            }
+            
+            $('body').append( t.parts.div_box );
+            t.parts.div_box.after(t.parts.overlay);
+        },
+        init: function() {
+            var t = this;
+        
+            t.parts = {};
+            
+            // create the dialog components
+            t.parts.div_box = $("<div>").attr({ id: t.ids.div_box });
+            t.parts.div_content = $("<div>").attr({ id: t.ids.div_content });
+            t.parts.div_options = $("<div>").attr({ id: t.ids.div_options });
+
+            t.parts.bt_yes = $("<button>").attr({ id: t.ids.bt_yes }).append( t.labels.yes );
+            t.parts.bt_no = $("<button>").attr({ id: t.ids.bt_no }).append( t.labels.no );
+            t.parts.bt_ok = $("<button>").attr({ id: t.ids.bt_ok }).append( t.labels.ok );
+            t.parts.bt_cancel = $("<button>").attr({ id: t.ids.bt_cancel }).append( t.labels.cancel );
+
+            t.parts.input = $("<input>").attr({ id: t.ids.input, class: 'input' });
+            t.parts.bt_close = $("<button>").attr({ id: t.ids.bt_close })
+                                           .append( t.labels.x ).click(
+                                                function() {
+                                                    t.close();
+                                                }
+                                            );
+
+            // assemble the parts
+            t.parts.div_box.append( t.parts.bt_close )
+                    .append( t.parts.div_content )
+                    .append(
+                        t.parts.div_options.append(t.parts.bt_yes)
+                                           .append(t.parts.bt_no)
+                                           .append(t.parts.bt_ok)
+                                           .append(t.parts.bt_cancel)
+                    );
+            t.parts.overlay = $('<div>').attr({ id: t.ids.overlay }
+                              ).click(function () {
+                                  t.close();
+                              });
+
+            // add to body
+            t.parts.div_box.hide();
+        }
+    };
+    $.jqDialog.init();
+})(jQuery);
 
 
 /************
